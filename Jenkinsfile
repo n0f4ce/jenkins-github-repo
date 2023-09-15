@@ -40,7 +40,7 @@ pipeline {
       steps {
         script {
           bat 'dir'
-          bar 'kubectl config use-context minikube'
+          bat 'kubectl config use-context minikube'
           bat 'kubectl apply -f deployment.yaml -f service.yaml'
         }
       }
