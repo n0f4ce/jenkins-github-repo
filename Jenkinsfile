@@ -39,6 +39,8 @@ pipeline {
     stage('Deploying git-apache container to kubernetes') {
       steps {
         script {
+          bat 'dir'
+          bar 'kubectl config use-context minikube'
           bat 'kubectl apply -f deployment.yaml -f service.yaml'
         }
       }
