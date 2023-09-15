@@ -39,7 +39,7 @@ pipeline {
     stage('Deploying git-apache container to kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+          sh "kubectl apply -f deployment.yaml -f service.yaml"
         }
       }
     }
