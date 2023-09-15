@@ -11,7 +11,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://gitlab-cgi.stackroute.in/20bcs029.madheshwaranr/jenkins-apache-project.git'
+        git 'https://github.com/n0f4ce/jenkins-github-repo.git'
       }
     }
 
