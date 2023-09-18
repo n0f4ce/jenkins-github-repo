@@ -2,8 +2,6 @@ pipeline {
     environment {
         dockerimagename = "n0face/git-apache"
         dockerImage = ""
-        dockerTool = 'docker'  // Docker tool name
-        registryCredential = 'docker-hub'
     }
 
     agent any
@@ -18,12 +16,15 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    dockerImage = docker.withTool(dockerTool).build(dockerimagename)
+                    dockerImage = docker.build dockerimagename
                 }
             }
         }
 
         stage('Pushing Image') {
+            environment {
+                registryCredential = 'docker-hub'
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
