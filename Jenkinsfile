@@ -40,6 +40,7 @@ pipeline {
       steps {
         script {
           sh 'kubectl config get-contexts'
+          sh 'kubectl get pods -n automate-deploy'
         }
       }
     }
