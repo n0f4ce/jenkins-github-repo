@@ -1,50 +1,45 @@
 pipeline {
-
-  environment {
-    dockerimagename = "n0face/git-apache"
-    dockerImage = ""
-  }
-
-  agent any
-
-  stages {
-
-    stage('Checkout Source') {
-      steps {
-        git branch: 'main', url: 'https://github.com/n0f4ce/jenkins-github-repo.git', credentialsId: 'github'
-      }
+    environment {
+        dockerimagename = "n0face/git-apache"
+        dockerImage = ""
+        dockerTool = 'docker'  // Docker tool name
+        registryCredential = 'docker-hub'
     }
 
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
+    agent any
+
+    stages {
+        stage('Checkout Source') {
+            steps {
+                git branch: 'main', url: 'https://github.com/n0f4ce/jenkins-github-repo.git', credentialsId: 'github'
+            }
         }
-      }
-    }
 
-    stage('Pushing Image') {
-      environment {
-               registryCredential = 'docker-hub'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
-          }
+        stage('Build image') {
+            steps {
+                script {
+                    dockerImage = docker.withTool(dockerTool).build(dockerimagename)
+                }
+            }
         }
-      }
-    }
 
-    stage('Deploying git-apache container to kubernetes') {
-      steps {
-        script {
-          sh 'kubectl config get-contexts'
-          sh 'kubectl get pods -n automate-deploy'
+        stage('Pushing Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        dockerImage.push("latest")
+                    }
+                }
+            }
         }
-      }
+
+        stage('Deploying git-apache container to kubernetes') {
+            steps {
+                script {
+                    sh 'kubectl config get-contexts'
+                    sh 'kubectl get pods -n automate-deploy'
+                }
+            }
+        }
     }
-
-  }
-
 }
