@@ -37,8 +37,8 @@ pipeline {
         stage('Deploying git-apache container to kubernetes') {
             steps {
                 script {
-                    sh 'kubectl config get-contexts'
-                    sh 'kubectl get pods -n automate-deploy'
+                    sh 'kubectl apply -f deployment.yaml -n jenkins'
+                    sh 'kubectl apply -f automate-deploy -n jenkins'
                 }
             }
         }
