@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node 'backup-agent'
+        node 'jenkins-agent-1'
     }
 
     /*environment {
@@ -39,8 +39,8 @@ pipeline {
             steps {
                 script {
                     // Apply Kubernetes deployment configuration
-                    sh 'kubectl apply -f deployment.yaml -n project-namespace'
-                    sh 'kubectl apply -f automate-deploy -n project-namespace'
+                    sh 'kubectl apply -f deployment.yaml'
+                    sh 'kubectl apply -f automate-deploy'
                 }
             }
         }
