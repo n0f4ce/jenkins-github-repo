@@ -3,20 +3,19 @@ pipeline {
         node 'jenkins-agent-2'
     }
 
-    environment {
+    /*environment {
         dockerImageName = "n0face/git-apache"
         registryCredential = 'docker-hub'
-    }
+    }*/
 
     stages {
         stage('Checkout Source') {
             steps {
-                sh 'which docker'
                 git branch: 'main', url: 'https://github.com/n0f4ce/jenkins-github-repo.git', credentialsId: 'github'
             }
         }
 
-        stage('Build image') {
+        /*stage('Build image') {
             steps {
                 script {
                     // Build the Docker image
@@ -34,7 +33,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Deploying git-apache container to Kubernetes') {
             steps {
