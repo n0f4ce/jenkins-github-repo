@@ -18,7 +18,7 @@ spec:
       containers:
       - image: n0face/git-apache:latest
         name: git-apache
-	ports:
-        - containerPort: 3002
-        resources: {}
+      ports:
+      - containerPort: 3002
+      resources: {}
 status: {}
