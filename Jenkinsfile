@@ -2,12 +2,11 @@ pipeline {
     agent {
         node 'jenkins-agent-2'
     }
-    environment {
-        dockerimagename = "n0face/git-apache"
-        dockerImage = ""
-        dockerTool = 'docker'
-    }
 
+    environment {
+        dockerImageName = "n0face/git-apache"
+        registryCredential = 'docker-hub'
+    }
 
     stages {
         stage('Checkout Source') {
@@ -19,27 +18,27 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    dockerImage = docker.withTool(dockerTool).build(dockerimagename)
+                    // Build the Docker image
+                    def customImage = docker.image(dockerImageName).build()
                 }
             }
         }
 
         stage('Pushing Image') {
-            environment {
-                registryCredential = 'docker-hub'
-            }
             steps {
                 script {
+                    // Push the Docker image to a registry
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        dockerImage.push("latest")
+                        customImage.push("latest")
                     }
                 }
             }
         }
 
-        stage('Deploying git-apache container to kubernetes') {
+        stage('Deploying git-apache container to Kubernetes') {
             steps {
                 script {
+                    // Apply Kubernetes deployment configuration
                     sh 'kubectl apply -f deployment.yaml -n project-namespace'
                     sh 'kubectl apply -f automate-deploy -n project-namespace'
                 }
