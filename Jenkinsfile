@@ -1,10 +1,12 @@
 pipeline {
+    agent {
+        node 'jenkins-agent-2'
+    }
     environment {
         dockerimagename = "n0face/git-apache"
         dockerImage = ""
     }
 
-    agent any
 
     stages {
         stage('Checkout Source') {
@@ -37,8 +39,8 @@ pipeline {
         stage('Deploying git-apache container to kubernetes') {
             steps {
                 script {
-                    sh 'kubectl apply -f deployment.yaml -n jenkins'
-                    sh 'kubectl apply -f automate-deploy -n jenkins'
+                    sh 'kubectl apply -f deployment.yaml -n project-namespace'
+                    sh 'kubectl apply -f automate-deploy -n project-namespace'
                 }
             }
         }
