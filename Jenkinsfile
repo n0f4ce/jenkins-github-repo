@@ -5,6 +5,7 @@ pipeline {
     environment {
         dockerimagename = "n0face/git-apache"
         dockerImage = ""
+        dockerTool = 'docker'
     }
 
 
@@ -18,7 +19,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    dockerImage = docker.build dockerimagename
+                    dockerImage = docker.withTool(dockerTool).build(dockerimagename)
                 }
             }
         }
