@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
+                sh 'which docker'
                 git branch: 'main', url: 'https://github.com/n0f4ce/jenkins-github-repo.git', credentialsId: 'github'
             }
         }
