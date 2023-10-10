@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node 'backup-agent'
+        node 'jenkins-agent-1'
     }
 
     /*environment {
