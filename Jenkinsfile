@@ -14,7 +14,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/n0f4ce/jenkins-github-repo.git', credentialsId: 'github'
             }
         }
-
+        //docker commands
         /*stage('Build image') {
             steps {
                 script {
