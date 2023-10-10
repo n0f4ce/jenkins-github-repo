@@ -1,24 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
-    app: jenkins-apache-project
-  name: jenkins-apache-project
+    app: jenkins-apache-site
+  name: jenkins-apache-site
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jenkins-apache-project
+      app: jenkins-apache-site
   strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: jenkins-apache-project
+        app: jenkins-apache-site
     spec:
       containers:
       - image: n0face/git-apache:latest
         name: git-apache
-      ports:
-      - containerPort: 3002
-      resources: {}
+        ports:
+        - containerPort: 80
+        resources: {}
 status: {}
